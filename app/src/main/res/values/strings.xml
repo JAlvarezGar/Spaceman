@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Practica2_JuegoHipotenochas</string>
+    <string name="instrucciones">Instrucciones</string>
+    <string name="juegonuevo">Juego nuevo</string>
+    <string name="configuracion">Configuración</string>
+    <string name="personaje">Selecciona la hipotenocha</string>
+    <string name="textoinstrucciones">El juego es tipo buscaminas: Cuando pulsas en una casilla,
+    sale un número que identifica cuantas hipotenochas hay alrededor: Ten cuidado porque si pulsas
+    en una casilla que tenga una hipotenocha escondida, perderás. Si crees o tienes la certeza de
+    que hay una hipotenocha, haz un clic largo sobre la casilla para señalarla. No hagas un clic
+    largo en una casilla donde no hay una hipotenocha porque perderás. Ganas una vez hayas
+    encontrado todas las hipotenochas."</string>
+</resources>
