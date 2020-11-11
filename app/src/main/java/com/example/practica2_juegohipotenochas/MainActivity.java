@@ -15,11 +15,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Hipotenochas> hipotenochas;
+    int personajeSeleccionado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
     }
 
@@ -49,12 +52,15 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent= new Intent(this,ListaHipotenuchas.class);
                 startActivity(intent);
-
+                Bundle datos = this.getIntent().getExtras();
+                personajeSeleccionado = datos.getInt("personaje");
+                Toast.makeText(this, "seleccionaste la hitenocha : "+personajeSeleccionado, Toast.LENGTH_SHORT).show();
                 return super.onOptionsItemSelected(item);
-
-
 
         }
         return super.onOptionsItemSelected(item);
+
+
     }
+
 }

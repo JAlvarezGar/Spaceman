@@ -14,8 +14,8 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 
-// adaptador para el list view
-public class Adaptador extends ArrayAdapter {
+// adaptadorListView para el list view
+public class AdaptadorListView extends ArrayAdapter {
 
     ArrayList<Hipotenochas> hipotenochas;
     LayoutInflater layoutInflater;
@@ -23,7 +23,7 @@ public class Adaptador extends ArrayAdapter {
     ImageView img1;
 
     // constructor en el que hay que incluir el LayoutInflater
-    public Adaptador(@NonNull Context context, int resource, ArrayList<Hipotenochas> hipotenochas) {
+    public AdaptadorListView(@NonNull Context context, int resource, ArrayList<Hipotenochas> hipotenochas) {
         super(context, resource);
         this.hipotenochas = hipotenochas;
         this.layoutInflater = layoutInflater;
@@ -58,7 +58,6 @@ public class Adaptador extends ArrayAdapter {
         img1.setImageResource(hipotenochas.get(position).getImagen());
 
         return vista;
-
-
     }
+
 }
