@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Practica2_JuegoHipotenochas">
-        <activity android:name=".ListaHipotenuchas"></activity>
+        <activity android:name=".JuegoPrincipiante"></activity>
+        <activity android:name=".ListaHipotenuchas" />
         <activity android:name=".ListViewPersonajes" />
         <activity android:name=".MainActivity">
             <intent-filter>

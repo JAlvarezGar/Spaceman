@@ -7,20 +7,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Hipotenochas> hipotenochas;
     int personajeSeleccionado;
+    DialogoNivelJuego nivelJuego;
+    String nivel;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textView=(TextView)findViewById(R.id.pruebanivel);
 
 
 
@@ -29,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-
+        getMenuInflater().inflate(R.menu.menuinicio, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -43,24 +46,36 @@ public class MainActivity extends AppCompatActivity {
                 dInstrucciones.show(getSupportFragmentManager(),"instrucciones");
                 return super.onOptionsItemSelected(item);
             case R.id.juegonuevo:
+                Intent nuevo= new Intent(this,JuegoPrincipiante.class);
+                startActivity(nuevo);
 
                 return super.onOptionsItemSelected(item);
             case R.id.configuracion:
+                nivelJuego= new DialogoNivelJuego();
+                nivelJuego.show(getSupportFragmentManager(),"niveljuego");
+
 
                 return super.onOptionsItemSelected(item);
             case R.id.selectpersonaje:
 
                 Intent intent= new Intent(this,ListaHipotenuchas.class);
                 startActivity(intent);
-                Bundle datos = this.getIntent().getExtras();
-                personajeSeleccionado = datos.getInt("personaje");
-                Toast.makeText(this, "seleccionaste la hitenocha : "+personajeSeleccionado, Toast.LENGTH_SHORT).show();
+                /**
+                try {
+                    Bundle hipotenochaselecccionada = this.getIntent().getExtras();
+                    personajeSeleccionado = hipotenochaselecccionada.getInt("personaje");
+                }catch (Exception e){
+                    personajeSeleccionado=R.drawable.hipo1;
+                }*/
+
                 return super.onOptionsItemSelected(item);
 
         }
+
         return super.onOptionsItemSelected(item);
 
 
     }
+
 
 }
