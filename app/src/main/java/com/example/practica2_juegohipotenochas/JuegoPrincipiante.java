@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class JuegoPrincipiante extends MainActivity {
+public class JuegoPrincipiante extends AppCompatActivity {
     TextView tv1,tv2;
     String nivel;
     int personaje;

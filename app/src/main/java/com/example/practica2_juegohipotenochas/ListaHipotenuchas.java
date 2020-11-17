@@ -47,7 +47,7 @@ public class ListaHipotenuchas extends AppCompatActivity {
 
                 int personaje;
 
-                Intent intent = new Intent(ListaHipotenuchas.this, JuegoPrincipiante.class);
+                Intent intent = new Intent(ListaHipotenuchas.this, MainActivity.class);
 
                 // Según la posición del item pasamos la hipotenocha seleccionada a MainActivity
                 switch (position) {
@@ -87,10 +87,7 @@ public class ListaHipotenuchas extends AppCompatActivity {
                         intent.putExtra("personaje", (R.drawable.hipo9));
                         startActivity(intent);
                         break;
-                    case 9:
-                        intent.putExtra("personaje", (R.drawable.hipo1));
-                        startActivity(intent);
-                        break;
+
 
                 }
 

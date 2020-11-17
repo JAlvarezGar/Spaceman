@@ -30,21 +30,21 @@ public class DialogoNivelJuego extends DialogFragment {
                                posicionString="Principiante";
                                 //Toast.makeText(getContext(), posicionString, Toast.LENGTH_SHORT).show();
                                 intentPrincipiante.putExtra("nivel",posicionString);
-                                //startActivity(intentPrincipiante);
+                                startActivity(intentPrincipiante);
                                 break;
                             case 1:
-                                Intent intentMedio= new Intent(getContext(),DialogoNivelJuego.class);
+                                Intent intentMedio= new Intent(getContext(),MainActivity.class);
                                 posicionString="Medio";
                                 //Toast.makeText(getContext(), posicionString, Toast.LENGTH_SHORT).show();
                                 intentMedio.putExtra("nivel",posicionString);
-                                //startActivity(intentMedio);
+                                startActivity(intentMedio);
                                 break;
                             case 2:
-                                Intent intentAvanzado= new Intent(getContext(),DialogoNivelJuego.class);
+                                Intent intentAvanzado= new Intent(getContext(),MainActivity.class);
                                 posicionString="Avanzado";
                                 //Toast.makeText(getContext(), posicionString, Toast.LENGTH_SHORT).show();
                                 intentAvanzado.putExtra("nivel",posicionString);
-                                //startActivity(intentAvanzado);
+                                startActivity(intentAvanzado);
                                 break;
                         }
                     }
