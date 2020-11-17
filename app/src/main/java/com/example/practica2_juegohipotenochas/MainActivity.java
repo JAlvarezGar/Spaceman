@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     //final  int personajeSeleccionado;
     String nivelSeleccionado;
     int personajeSeleccionado;
-
+    SharedPreferences preferencias;
     DialogoNivelJuego nivelJuego;
     String nivel;
 
@@ -30,40 +30,48 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences prefsPersonaje = getSharedPreferences("personaje_data",   Context.MODE_PRIVATE);
-        SharedPreferences.Editor editPersonaje = prefsPersonaje.edit();
-        SharedPreferences prefsNivel = getSharedPreferences("nivel_data",   Context.MODE_PRIVATE);
-        SharedPreferences.Editor editNivel = prefsNivel.edit();
+        preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferencias.edit();
         try {
             Bundle hipotenochaselecccionada = this.getIntent().getExtras();
             personajeSeleccionado = hipotenochaselecccionada.getInt("personaje");
 
-            editPersonaje.putInt("personaje", personajeSeleccionado);
-            editPersonaje.commit();
+            //preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
+            //SharedPreferences.Editor edit = preferencias.edit();
+            edit.putInt("icono", personajeSeleccionado);
+            edit.apply();
 
         } catch (Exception e) {
             personajeSeleccionado = R.drawable.hipo1;
-            editPersonaje.putInt("personaje", personajeSeleccionado);
-            editPersonaje.commit();
+
+            //preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
+           // SharedPreferences.Editor edit = preferencias.edit();
+            edit.putInt("icono", personajeSeleccionado);
+            edit.apply();
         }
 
         try {
             Bundle nivel = this.getIntent().getExtras();
             nivelSeleccionado = nivel.getString("nivel");
 
-            editNivel.putString("nivel", nivelSeleccionado);
-            editNivel.commit();
+            //preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
+            //SharedPreferences.Editor edit = preferencias.edit();
+            edit.putString("niv", nivelSeleccionado);
+            edit.apply();
 
 
         } catch (Exception e) {
             nivelSeleccionado = "Principiante";
-            editNivel.putString("nivel", nivelSeleccionado);
-            editNivel.commit();
+
+           // preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
+            //SharedPreferences.Editor edit = preferencias.edit();
+            edit.putString("niv", nivelSeleccionado);
+            edit.apply();
         }
 
         // prefs.getString("nombre del campo" , "valor por defecto")
-        String hipopotamo = prefsPersonaje.getString("personaje", "Principiante");
-        int level = prefsNivel.getInt("nivel", R.drawable.hipo1);
+        int hipopotamo = preferencias.getInt("icono", R.drawable.hipo3);
+        String level = preferencias.getString("niv", "Principiante");
         Toast.makeText(this, "NIVEL " + level, Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "PERSONAJE " + hipopotamo, Toast.LENGTH_SHORT).show();
 
@@ -76,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menuinicio, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
