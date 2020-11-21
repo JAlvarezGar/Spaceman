@@ -11,4 +11,15 @@
     largo en una casilla donde no hay una hipotenocha porque perderás. Ganas una vez hayas
     encontrado todas las hipotenochas."</string>
     <string name="titulo_main">ENCUENTRA LAS HIPOTENOCHAS</string>
+    <string-array name="nombres">
+        <item>Principal</item>
+        <item>Numérica</item>
+        <item>Española</item>
+        <item>Dibujos</item>
+        <item>Faralae</item>
+        <item>Deportes</item>
+        <item>Camuflaje</item>
+        <item>Enfermera</item>
+        <item>Binaria</item>
+    </string-array>
 </resources>

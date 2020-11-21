@@ -38,17 +38,37 @@ public class DialogoPersonajes extends DialogFragment {
         hipotenochas.add(new Hipotenochas(R.drawable.hipo9));
 
 
+
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View listHipo = inflater.inflate(R.layout.list_view, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Escoge Hipotenocha")
-                .setView(listHipo);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Escoge Hipotenocha");
+        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
         // el segundo parametro es el layout creado para el adaptadorListView
         // en este caso es el lista_view
         adaptadorListView = new AdaptadorListView(getContext(), R.layout.list_view, hipotenochas);
-        listView.setAdapter(adaptadorListView);
+        builder.setAdapter(adaptadorListView, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String strName = (String) adaptadorListView.getItem(which);
 
+                AlertDialog.Builder builderInner = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Escoge Hipotenocha");
+                       // .setView(listHipo);
+
+            }
+        });
+
+/*
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -92,7 +112,7 @@ public class DialogoPersonajes extends DialogFragment {
 
             }
 
-        });
+        });*/
 
         return super.onCreateDialog(savedInstanceState);
     }

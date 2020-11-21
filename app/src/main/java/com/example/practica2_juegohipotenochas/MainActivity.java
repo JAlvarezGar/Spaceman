@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     int personajeSeleccionado;
     SharedPreferences preferencias;
     DialogoNivelJuego nivelJuego;
+    DialogoPersonajes dialogoPersonajes;
+    DialogoInstruciones dInstrucciones;
     String nivel;
 
 
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
+        preferencias = getSharedPreferences("data", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = preferencias.edit();
         try {
             Bundle hipotenochaselecccionada = this.getIntent().getExtras();
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             personajeSeleccionado = R.drawable.hipo1;
 
             //preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
-           // SharedPreferences.Editor edit = preferencias.edit();
+            // SharedPreferences.Editor edit = preferencias.edit();
             edit.putInt("icono", personajeSeleccionado);
             edit.apply();
         }
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             nivelSeleccionado = "Principiante";
 
-           // preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
+            // preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
             //SharedPreferences.Editor edit = preferencias.edit();
             edit.putString("niv", nivelSeleccionado);
             edit.apply();
@@ -90,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.instrucciones:
-
-                DialogoInstruciones dInstrucciones = new DialogoInstruciones();
+                dInstrucciones = new DialogoInstruciones();
                 dInstrucciones.show(getSupportFragmentManager(), "instrucciones");
                 return super.onOptionsItemSelected(item);
             case R.id.juegonuevo:
@@ -102,13 +103,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.configuracion:
                 nivelJuego = new DialogoNivelJuego();
                 nivelJuego.show(getSupportFragmentManager(), "niveljuego");
-
                 return super.onOptionsItemSelected(item);
             case R.id.selectpersonaje:
 
-                Intent intent = new Intent(this, ListaHipotenuchas.class);
-                startActivity(intent);
-
+                dialogoPersonajes = new DialogoPersonajes();
+                dialogoPersonajes.show(getSupportFragmentManager(),"personajes");
                 return super.onOptionsItemSelected(item);
 
         }
