@@ -67,11 +67,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.selectpersonaje:
 
                 AlertDialog.Builder builder= new AlertDialog.Builder(this);
+                builder.setTitle("SELECCIONA HIPOTENOCHA");
                 LayoutInflater inflater=(LayoutInflater)this
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View row=inflater.inflate(R.layout.row_item,null);
                 ListView lv=(ListView)row.findViewById(R.id.listview);
                 lv.setAdapter(new AdaptadorPersonaje(this));
+
                 builder.setView(row);
                 AlertDialog diallogo=builder.create();
                 diallogo.show();
