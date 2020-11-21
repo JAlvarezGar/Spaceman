@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,7 +24,7 @@ public class DialogoNivelJuego extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View miDialogo = inflater.inflate(R.layout.list_view, null);
+        View miDialogo = inflater.inflate(R.layout.custom_listview, null);
 
         builder.setTitle("Escoge nivel de juego")
                 .setItems(niveles, new DialogInterface.OnClickListener() {

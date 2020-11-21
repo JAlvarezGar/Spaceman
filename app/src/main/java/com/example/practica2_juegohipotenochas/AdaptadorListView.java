@@ -52,7 +52,7 @@ public class AdaptadorListView extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View vista = layoutInflater.inflate(R.layout.list_view, null);
+        View vista = layoutInflater.inflate(R.layout.custom_listview, null);
 
         img1=(ImageView)vista.findViewById(R.id.imageView);
         img1.setImageResource(hipotenochas.get(position).getImagen());

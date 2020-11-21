@@ -45,7 +45,7 @@
         app:layout_constraintGuide_begin="151dp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Principal"

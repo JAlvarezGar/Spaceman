@@ -1,15 +1,18 @@
 package com.example.practica2_juegohipotenochas;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,11 +23,12 @@ public class MainActivity extends AppCompatActivity {
     //final  int personajeSeleccionado;
     String nivelSeleccionado;
     int personajeSeleccionado;
-    SharedPreferences preferencias;
+
     DialogoNivelJuego nivelJuego;
-    DialogoPersonajes dialogoPersonajes;
+
     DialogoInstruciones dInstrucciones;
-    String nivel;
+
+
 
 
     @Override
@@ -32,50 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        preferencias = getSharedPreferences("data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = preferencias.edit();
-        try {
-            Bundle hipotenochaselecccionada = this.getIntent().getExtras();
-            personajeSeleccionado = hipotenochaselecccionada.getInt("personaje");
 
-            //preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
-            //SharedPreferences.Editor edit = preferencias.edit();
-            edit.putInt("icono", personajeSeleccionado);
-            edit.apply();
-
-        } catch (Exception e) {
-            personajeSeleccionado = R.drawable.hipo1;
-
-            //preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
-            // SharedPreferences.Editor edit = preferencias.edit();
-            edit.putInt("icono", personajeSeleccionado);
-            edit.apply();
-        }
-
-        try {
-            Bundle nivel = this.getIntent().getExtras();
-            nivelSeleccionado = nivel.getString("nivel");
-
-            //preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
-            //SharedPreferences.Editor edit = preferencias.edit();
-            edit.putString("niv", nivelSeleccionado);
-            edit.apply();
-
-
-        } catch (Exception e) {
-            nivelSeleccionado = "Principiante";
-
-            // preferencias = getSharedPreferences("data",   Context.MODE_PRIVATE);
-            //SharedPreferences.Editor edit = preferencias.edit();
-            edit.putString("niv", nivelSeleccionado);
-            edit.apply();
-        }
-
-        // prefs.getString("nombre del campo" , "valor por defecto")
-        int hipopotamo = preferencias.getInt("icono", R.drawable.hipo3);
-        String level = preferencias.getString("niv", "Principiante");
-        Toast.makeText(this, "NIVEL " + level, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "PERSONAJE " + hipopotamo, Toast.LENGTH_SHORT).show();
 
 
     }
@@ -96,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 dInstrucciones.show(getSupportFragmentManager(), "instrucciones");
                 return super.onOptionsItemSelected(item);
             case R.id.juegonuevo:
-                Intent nuevo = new Intent(this, JuegoPrincipiante.class);
-                startActivity(nuevo);
+
 
                 return super.onOptionsItemSelected(item);
             case R.id.configuracion:
@@ -106,8 +66,18 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
             case R.id.selectpersonaje:
 
-                dialogoPersonajes = new DialogoPersonajes();
-                dialogoPersonajes.show(getSupportFragmentManager(),"personajes");
+                AlertDialog.Builder builder= new AlertDialog.Builder(this);
+                LayoutInflater inflater=(LayoutInflater)this
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View row=inflater.inflate(R.layout.row_item,null);
+                ListView lv=(ListView)row.findViewById(R.id.listview);
+                lv.setAdapter(new AdaptadorPersonaje(this));
+                builder.setView(row);
+                AlertDialog diallogo=builder.create();
+                diallogo.show();
+
+
+
                 return super.onOptionsItemSelected(item);
 
         }
