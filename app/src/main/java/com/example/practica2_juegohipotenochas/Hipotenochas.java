@@ -1,9 +1,16 @@
 package com.example.practica2_juegohipotenochas;
 
-public class Hipotenochas {
-    int imagen;
-    String nombre;
+import java.io.Serializable;
 
+public class Hipotenochas  {
+    private int imagen;
+    private String nombre;
+
+    /**
+     *
+     * @param imagen
+     * @param nombre
+     */
     public Hipotenochas(int imagen, String nombre) {
         this.imagen = imagen;
         this.nombre= nombre;

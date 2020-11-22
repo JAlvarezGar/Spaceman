@@ -17,6 +17,11 @@ public class DialogoNivelJuego extends DialogFragment {
     String[] niveles = {"Principiante", "Medio", "Avanzado"};
     String posicionString;
 
+    /**
+     *
+     * @param savedInstanceState
+     * @return
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
