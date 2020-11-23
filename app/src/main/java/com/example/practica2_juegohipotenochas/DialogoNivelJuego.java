@@ -1,6 +1,7 @@
 package com.example.practica2_juegohipotenochas;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ public class DialogoNivelJuego extends DialogFragment {
 
     String[] niveles = {"Principiante", "Medio", "Avanzado"};
     String posicionString;
+    RespuestaNivel nivel;
 
     /**
      *
@@ -37,29 +39,29 @@ public class DialogoNivelJuego extends DialogFragment {
 
                         switch (posicion) {
                             case 0:
-                                Intent intentPrincipiante= new Intent(getContext(),MainActivity.class);
-                               posicionString="Principiante";
-                                //Toast.makeText(getContext(), posicionString, Toast.LENGTH_SHORT).show();
-                                intentPrincipiante.putExtra("nivel",posicionString);
-                                startActivity(intentPrincipiante);
+                                nivel.onRespuestaNivel("Principiante");
+
                                 break;
                             case 1:
-                                Intent intentMedio= new Intent(getContext(),MainActivity.class);
-                                posicionString="Medio";
-                                //Toast.makeText(getContext(), posicionString, Toast.LENGTH_SHORT).show();
-                                intentMedio.putExtra("nivel",posicionString);
-                                startActivity(intentMedio);
+                                nivel.onRespuestaNivel("Medio");
                                 break;
+
                             case 2:
-                                Intent intentAvanzado= new Intent(getContext(),MainActivity.class);
-                                posicionString="Avanzado";
-                                //Toast.makeText(getContext(), posicionString, Toast.LENGTH_SHORT).show();
-                                intentAvanzado.putExtra("nivel",posicionString);
-                                startActivity(intentAvanzado);
+                                nivel.onRespuestaNivel("Avanzado");
                                 break;
+
                         }
                     }
                 });
         return builder.create();
+    }
+    public interface  RespuestaNivel{
+        public void onRespuestaNivel(String r);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        nivel=(RespuestaNivel)getActivity();
     }
 }

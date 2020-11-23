@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, DialogoNivelJuego.RespuestaNivel {
 
     ArrayList<Hipotenochas> hipotenochas;
     String nivelSeleccionado;
@@ -33,41 +33,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // constantes de nivel de juego
     // indican el nº de casillas del modo 8x8, 12x12, 16x16
-    final int PRINCIPIANTE=8;
-    final int MEDIO=12;
-    final int AVANZADO=16;
+    final int PRINCIPIANTE = 8;
+    final int MEDIO = 12;
+    final int AVANZADO = 16;
 
     LinearLayout linearLayout;
     TableLayout table;
     Button boton;
 
 
-
-    /**
-     * @param savedInstanceState
-     */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        linearLayout=(LinearLayout)findViewById(R.id.linearLayout);
+        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
         dibujoTablero(PRINCIPIANTE);
 
 
     }
 
+    /**
+     * @param cantidadBotones indica el nº de botones que queremos crear
+     *                        8x8, 12x12, 16x16
+     */
     private void dibujoTablero(int cantidadBotones) {
 
-        table= new TableLayout(this);
+        table = new TableLayout(this);
         table.setLayoutParams(new TableLayout.LayoutParams(
                 TableLayout.LayoutParams.MATCH_PARENT,
                 TableLayout.LayoutParams.MATCH_PARENT));
+        /**
+         * setStretchAllColumns = establecer Reducir todas las columnas
+         * setShrinkAllColumns = establecer Estirar todas las columnas
+         * */
         table.setStretchAllColumns(true);
         table.setShrinkAllColumns(true);
+        table.setWeightSum(cantidadBotones);
 
 
+        // Nº de filas
         for (int i = 0; i < cantidadBotones; i++) {
             TableRow tr = new TableRow(this);
             tr.setGravity(Gravity.CENTER);
@@ -75,20 +80,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.WRAP_CONTENT, 1.0f));
 
+            // Nº de columnas
             for (int j = 0; j < cantidadBotones; j++) {
                 boton = new Button(this);
                 boton.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT));
                 boton.setId(View.generateViewId());
                 boton.setText(i + "," + j);
                 boton.setTextSize(0);
                 boton.setOnClickListener(this);
                 boton.setOnLongClickListener(this);
+                // añade los botones a las filas
                 tr.addView(boton);
             }
+            // añade las filas a la tabla
             table.addView(tr);
         }
         linearLayout.removeAllViews();
+        // añade la tabla al linear layout
         linearLayout.addView(table);
     }
 
@@ -117,8 +127,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.juegonuevo:
 
 
-
-
                 return super.onOptionsItemSelected(item);
             case R.id.configuracion:
 
@@ -137,6 +145,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * método para seleccionar una hipotenocha personalizada
+     */
     private void seleccionPersonaje() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("SELECCIONA HIPOTENOCHA");
@@ -195,5 +206,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onLongClick(View v) {
         return false;
+    }
+
+    /**
+     * metodo que implemetamos con la interfaz:
+     * public interface  RespuestaNivel{
+     *         public void onRespuestaNivel(String r);
+     *     }
+     *     de el diálogo DialogoNivelJuego.java
+     * @param r respuesta recibida al llamar al DialogoNivelJuego
+     */
+    @Override
+    public void onRespuestaNivel(String r) {
+        switch (r) {
+            case "Principiante":
+                Toast.makeText(this, "Nivel "+r, Toast.LENGTH_SHORT).show();
+                dibujoTablero(PRINCIPIANTE);
+                break;
+            case "Medio":
+                Toast.makeText(this, "Nivel "+r, Toast.LENGTH_SHORT).show();
+                dibujoTablero(MEDIO);
+                break;
+            case "Avanzado":
+                Toast.makeText(this, "Nivel "+r, Toast.LENGTH_SHORT).show();
+                dibujoTablero(AVANZADO);
+                break;
+        }
     }
 }
