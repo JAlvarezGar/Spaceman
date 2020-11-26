@@ -23,13 +23,16 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, DialogoNivelJuego.RespuestaNivel {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
+        View.OnLongClickListener,
+        DialogoNivelJuego.RespuestaNivel {
 
     ArrayList<Hipotenochas> hipotenochas;
     String nivelSeleccionado;
     int personajeSeleccionado;
     DialogoNivelJuego nivelJuego;
     DialogoInstruciones dInstrucciones;
+    DialogoPersonaje dialogoPersonaje;
 
     // constantes de nivel de juego
     // indican el nº de casillas del modo 8x8, 12x12, 16x16
@@ -46,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
         dibujoTablero(PRINCIPIANTE);
 
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Nº de filas
         for (int i = 0; i < cantidadBotones; i++) {
             TableRow tr = new TableRow(this);
-            tr.setGravity(Gravity.CENTER);
+            //tr.setGravity(Gravity.CENTER);
             tr.setLayoutParams(new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.WRAP_CONTENT, 1.0f));
@@ -85,10 +87,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 boton = new Button(this);
                 boton.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT));
+                        TableRow.LayoutParams.MATCH_PARENT,1));
                 boton.setId(View.generateViewId());
                 boton.setText(i + "," + j);
-                boton.setTextSize(0);
+                boton.setTextSize(8);
                 boton.setOnClickListener(this);
                 boton.setOnLongClickListener(this);
                 // añade los botones a las filas
@@ -119,22 +121,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.instrucciones:
 
+            case R.id.instrucciones:
                 dInstrucciones = new DialogoInstruciones();
                 dInstrucciones.show(getSupportFragmentManager(), "instrucciones");
                 return super.onOptionsItemSelected(item);
+
             case R.id.juegonuevo:
 
-
+                dibujoTablero(PRINCIPIANTE);
                 return super.onOptionsItemSelected(item);
-            case R.id.configuracion:
 
+            case R.id.configuracion:
                 nivelJuego = new DialogoNivelJuego();
                 nivelJuego.show(getSupportFragmentManager(), "niveljuego");
                 return super.onOptionsItemSelected(item);
-            case R.id.selectpersonaje:
 
+            case R.id.selectpersonaje:
                 seleccionPersonaje();
                 return super.onOptionsItemSelected(item);
 
@@ -149,6 +152,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * método para seleccionar una hipotenocha personalizada
      */
     private void seleccionPersonaje() {
+//        dialogoPersonaje = new DialogoPersonaje();
+//        dialogoPersonaje.show(getSupportFragmentManager(),"personaje");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("SELECCIONA HIPOTENOCHA");
         LayoutInflater inflater = (LayoutInflater) this
@@ -211,26 +216,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * metodo que implemetamos con la interfaz:
      * public interface  RespuestaNivel{
-     *         public void onRespuestaNivel(String r);
-     *     }
-     *     de el diálogo DialogoNivelJuego.java
+     * public void onRespuestaNivel(String r);
+     * }
+     * de el diálogo DialogoNivelJuego.java
+     *
      * @param r respuesta recibida al llamar al DialogoNivelJuego
      */
     @Override
     public void onRespuestaNivel(String r) {
         switch (r) {
             case "Principiante":
-                Toast.makeText(this, "Nivel "+r, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Nivel " + r, Toast.LENGTH_SHORT).show();
                 dibujoTablero(PRINCIPIANTE);
                 break;
             case "Medio":
-                Toast.makeText(this, "Nivel "+r, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Nivel " + r, Toast.LENGTH_SHORT).show();
                 dibujoTablero(MEDIO);
                 break;
             case "Avanzado":
-                Toast.makeText(this, "Nivel "+r, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Nivel " + r, Toast.LENGTH_SHORT).show();
                 dibujoTablero(AVANZADO);
                 break;
         }
     }
+
+//    @Override
+//    public void onRespuestaPersonaje(int i) {
+//        switch (i){
+//            case 0:
+//                int hipotenocha=(R.drawable.hipo1);
+//                Toast.makeText(this, "hipo1", Toast.LENGTH_SHORT).show();
+//                break;
+//            case 1:
+//                break;
+//            case 2:
+//                break;
+//            case 3:
+//                break;
+//            case 4:
+//                break;
+//            case 5:
+//                break;
+//        }
+//
+//    }
 }
