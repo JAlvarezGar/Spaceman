@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,8 +17,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
@@ -49,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+        //linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
         dibujoTablero(PRINCIPIANTE);
 
 
@@ -61,47 +66,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void dibujoTablero(int cantidadBotones) {
 
-        table = new TableLayout(this);
-        table.setLayoutParams(new TableLayout.LayoutParams(
-                TableLayout.LayoutParams.MATCH_PARENT,
-                TableLayout.LayoutParams.MATCH_PARENT));
-        /**
-         * setStretchAllColumns = establecer Reducir todas las columnas
-         * setShrinkAllColumns = establecer Estirar todas las columnas
-         * */
-        table.setStretchAllColumns(true);
-        table.setShrinkAllColumns(true);
-        table.setWeightSum(cantidadBotones);
+        RelativeLayout relativeLayout= (RelativeLayout)findViewById(R.id.layout_principal);
+        GridLayout gridLayout = new GridLayout(getApplicationContext());
+        GridLayout.LayoutParams param= new GridLayout.LayoutParams();
+        param.setMargins(0, 0, 0, 0);
+        param.height = -1;
+        param.width = -1;
 
+        // con esta clase consigo averiguar cual es el tamaño en pixeles de la pantalla
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
 
-        // Nº de filas
-        for (int i = 0; i < cantidadBotones; i++) {
-            TableRow tr = new TableRow(this);
-            //tr.setGravity(Gravity.CENTER);
-            tr.setLayoutParams(new TableLayout.LayoutParams(
-                    TableLayout.LayoutParams.MATCH_PARENT,
-                    TableLayout.LayoutParams.WRAP_CONTENT, 1.0f));
+        // linearLayout para colocar los botones en la pantalla de acuerdo
+        // al tamaño de esta
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                (size.x ) / cantidadBotones,
+                (size.y-150 ) / cantidadBotones,
+                1.0f);
+        // ajusto los margenes para que no se salgan de la pantalla los botones
+        layoutParams.setMargins(0, -10, -15, -10);
 
-            // Nº de columnas
-            for (int j = 0; j < cantidadBotones; j++) {
-                boton = new Button(this);
-                boton.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT,1));
-                boton.setId(View.generateViewId());
-                boton.setText(i + "," + j);
-                boton.setTextSize(8);
-                boton.setOnClickListener(this);
-                boton.setOnLongClickListener(this);
-                // añade los botones a las filas
-                tr.addView(boton);
-            }
-            // añade las filas a la tabla
-            table.addView(tr);
+        // gridLayout para colocar las filas y las colummnas
+        gridLayout.setRowCount(cantidadBotones);
+        gridLayout.setColumnCount(cantidadBotones);
+        gridLayout.setLayoutParams(param);
+
+        ImageButton button;
+
+        for (int i = 0; i < (cantidadBotones*cantidadBotones); i++) {
+            //button = new Button(this);
+            button= new ImageButton(this);
+            button.setLayoutParams(layoutParams);
+            button.forceLayout();
+            //button.setText("b");
+            button.setId(View.generateViewId());
+            //button.setGravity(button.TEXT_ALIGNMENT_CENTER);
+            System.out.println(button.getId());
+            gridLayout.addView(button, i);
         }
-        linearLayout.removeAllViews();
-        // añade la tabla al linear layout
-        linearLayout.addView(table);
+        relativeLayout.removeAllViews();
+        relativeLayout.addView(gridLayout);
     }
 
     /**
