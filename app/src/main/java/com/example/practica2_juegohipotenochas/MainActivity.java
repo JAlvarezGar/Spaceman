@@ -1,20 +1,14 @@
 package com.example.practica2_juegohipotenochas;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -23,8 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 
@@ -38,6 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DialogoNivelJuego nivelJuego;
     DialogoInstruciones dInstrucciones;
     DialogoPersonaje dialogoPersonaje;
+
+    int[][] matriz;
+    GridLayout gridLayout;
+    int cantidadBotones;
 
     // constantes de nivel de juego
     // indican el nº de casillas del modo 8x8, 12x12, 16x16
@@ -54,9 +56,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
-        dibujoTablero(PRINCIPIANTE);
 
+    }
+
+    public void colocarHipotenochas(int cantidadBotones) {
+        switch (cantidadBotones){
+            case 8:
+                matriz= new int[cantidadBotones][cantidadBotones];
+                for (int i = 0; i < 10; i++) {
+                    int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
+                    int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
+            matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
+
+                }
+                break;
+            case 12:
+                matriz= new int[cantidadBotones][cantidadBotones];
+                for (int i = 0; i < 30; i++) {
+                    int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
+                    int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
+                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
+
+                }
+                break;
+            case 16:
+                matriz= new int[cantidadBotones][cantidadBotones];
+                for (int i = 0; i < 60; i++) {
+                    int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
+                    int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
+                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
+
+                }
+                break;
+        }
 
     }
 
@@ -66,12 +98,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void dibujoTablero(int cantidadBotones) {
 
-        RelativeLayout relativeLayout= (RelativeLayout)findViewById(R.id.layout_principal);
-        GridLayout gridLayout = new GridLayout(getApplicationContext());
-        GridLayout.LayoutParams param= new GridLayout.LayoutParams();
+        ConstraintLayout constraintLayout = findViewById(R.id.layout_principal);
+        gridLayout = new GridLayout(getApplicationContext());
+        GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+
         param.setMargins(0, 0, 0, 0);
-        param.height = -1;
-        param.width = -1;
+        param.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        param.width = ViewGroup.LayoutParams.MATCH_PARENT;
+
 
         // con esta clase consigo averiguar cual es el tamaño en pixeles de la pantalla
         Display display = getWindowManager().getDefaultDisplay();
@@ -81,37 +115,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // linearLayout para colocar los botones en la pantalla de acuerdo
         // al tamaño de esta
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                (size.x ) / cantidadBotones,
-                (size.y-150 ) / cantidadBotones,
+                (size.x - 100) / cantidadBotones,
+                (size.y - 350) / cantidadBotones,
                 1.0f);
         // ajusto los margenes para que no se salgan de la pantalla los botones
-        layoutParams.setMargins(0, -10, -15, -10);
+        layoutParams.setMargins(0, 0, 0, 0);
+        //layoutParams.weight=1;
+
 
         // gridLayout para colocar las filas y las colummnas
         gridLayout.setRowCount(cantidadBotones);
         gridLayout.setColumnCount(cantidadBotones);
         gridLayout.setLayoutParams(param);
 
-        ImageButton button;
+        //matriz = new int[cantidadBotones][cantidadBotones];
+        int filasXcolumnas = cantidadBotones * cantidadBotones;
 
-        for (int i = 0; i < (cantidadBotones*cantidadBotones); i++) {
-            //button = new Button(this);
-            button= new ImageButton(this);
-            button.setLayoutParams(layoutParams);
-            button.forceLayout();
-            //button.setText("b");
-            button.setId(View.generateViewId());
-            //button.setGravity(button.TEXT_ALIGNMENT_CENTER);
-            System.out.println(button.getId());
-            gridLayout.addView(button, i);
+        for (int i = 0; i < (cantidadBotones); i++) {
+            for (int j = 0; j < (cantidadBotones); j++) {
+
+                ImageButton button = new ImageButton(MainActivity.this);
+                Button b = new Button(MainActivity.this);
+
+                //  Da forma rectangular al botón y establece el padding a 0
+                button.setBackground(getResources().getDrawable(R.drawable.forma_boton));
+
+                button.setTag(matriz[i][j]);
+                button.setLayoutParams(layoutParams);
+                button.forceLayout();
+                button.setId(View.generateViewId());
+                gridLayout.addView(button);
+                if (matriz[i][j]==-1)System.out.println(matriz[i][j]);
+            }
+
         }
-        relativeLayout.removeAllViews();
-        relativeLayout.addView(gridLayout);
+        constraintLayout.removeAllViews();
+        constraintLayout.addView(gridLayout);
+
+
     }
 
+
+
     /**
-     * @param menu
-     * @return
+     * @param menu indica que menú se quiere inflrar
+     *             en este caso se refiere al menú inicial
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,9 +167,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onCreateOptionsMenu(menu);
     }
 
+
     /**
-     * @param item
-     * @return
+     * @param item Se refiere al elemento seleccionado
+     *             Instrucciones
+     *             juegoNuevo
+     *             Configuración
+     *             Selección de personaje
+     * @return devuelve el item seleccionado
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -153,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     /**
      * método para seleccionar una hipotenocha personalizada
      */
@@ -160,11 +214,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        dialogoPersonaje = new DialogoPersonaje();
 //        dialogoPersonaje.show(getSupportFragmentManager(),"personaje");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("SELECCIONA HIPOTENOCHA");
+        builder.setTitle(R.string.titulopersonaje);
         LayoutInflater inflater = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = inflater.inflate(R.layout.row_item, null);
-        ListView lv = (ListView) row.findViewById(R.id.listview);
+        ListView lv = row.findViewById(R.id.listview);
         lv.setAdapter(new AdaptadorPersonaje(this));
 
         builder.setView(row);
@@ -232,37 +286,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (r) {
             case "Principiante":
                 Toast.makeText(this, "Nivel " + r, Toast.LENGTH_SHORT).show();
+                colocarHipotenochas(PRINCIPIANTE);
                 dibujoTablero(PRINCIPIANTE);
                 break;
             case "Medio":
                 Toast.makeText(this, "Nivel " + r, Toast.LENGTH_SHORT).show();
+                colocarHipotenochas(MEDIO);
                 dibujoTablero(MEDIO);
                 break;
             case "Avanzado":
                 Toast.makeText(this, "Nivel " + r, Toast.LENGTH_SHORT).show();
+                colocarHipotenochas(AVANZADO);
                 dibujoTablero(AVANZADO);
                 break;
         }
     }
 
-//    @Override
-//    public void onRespuestaPersonaje(int i) {
-//        switch (i){
-//            case 0:
-//                int hipotenocha=(R.drawable.hipo1);
-//                Toast.makeText(this, "hipo1", Toast.LENGTH_SHORT).show();
-//                break;
-//            case 1:
-//                break;
-//            case 2:
-//                break;
-//            case 3:
-//                break;
-//            case 4:
-//                break;
-//            case 5:
-//                break;
-//        }
-//
-//    }
 }

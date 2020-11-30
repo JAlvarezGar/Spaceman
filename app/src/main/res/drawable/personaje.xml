@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:drawable="@drawable/hipo1"></item>
+    <item android:drawable="@drawable/hipo1"></item>
     <item android:drawable="@drawable/hipo2"></item>
     <item android:drawable="@drawable/hipo3"></item>
     <item android:drawable="@drawable/hipo4"></item>
