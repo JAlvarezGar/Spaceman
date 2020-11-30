@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,10 +28,11 @@ public class DialogoPersonaje extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("SELECCIONA HIPOTENOCHA");
+
         LayoutInflater inflater = (LayoutInflater) getActivity()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = inflater.inflate(R.layout.row_item, null);
-        ListView lv = (ListView) row.findViewById(R.id.listview);
+        ListView lv = row.findViewById(R.id.listview);
         lv.setAdapter(new AdaptadorPersonaje(getContext()));
 
         builder.setView(row);
@@ -42,27 +45,27 @@ public class DialogoPersonaje extends DialogFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        personajes.onRespuestaPersonaje(0);
+                        personajes.onRespuestaPersonaje(1);
                         diallogo.cancel();
                         break;
                     case 1:
-                        personajes.onRespuestaPersonaje(position);
+                        personajes.onRespuestaPersonaje(2);
                         diallogo.cancel();
                         break;
                     case 2:
-                        personajes.onRespuestaPersonaje(position);
+                        personajes.onRespuestaPersonaje(3);
                         diallogo.cancel();
                         break;
                     case 3:
-                        personajes.onRespuestaPersonaje(position);
+                        personajes.onRespuestaPersonaje(4);
                         diallogo.cancel();
                         break;
                     case 4:
-                        personajes.onRespuestaPersonaje(position);
+                        personajes.onRespuestaPersonaje(5);
                         diallogo.cancel();
                         break;
                     case 5:
-                        personajes.onRespuestaPersonaje(position);
+                        personajes.onRespuestaPersonaje(6);
                         diallogo.cancel();
                         break;
 

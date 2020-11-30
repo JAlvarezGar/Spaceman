@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,9 +14,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DialogoPersonaje dialogoPersonaje;
 
     int[][] matriz;
+    int[][] contadorAdyacentes;
     GridLayout gridLayout;
     int cantidadBotones;
 
@@ -60,18 +62,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void colocarHipotenochas(int cantidadBotones) {
-        switch (cantidadBotones){
+        switch (cantidadBotones) {
             case 8:
-                matriz= new int[cantidadBotones][cantidadBotones];
+                matriz = new int[cantidadBotones][cantidadBotones];
+                contadorAdyacentes = new int[cantidadBotones][cantidadBotones];
                 for (int i = 0; i < 10; i++) {
                     int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
                     int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
-            matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
+                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
 
                 }
                 break;
             case 12:
-                matriz= new int[cantidadBotones][cantidadBotones];
+                contadorAdyacentes = new int[cantidadBotones][cantidadBotones];
+                matriz = new int[cantidadBotones][cantidadBotones];
                 for (int i = 0; i < 30; i++) {
                     int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
                     int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
@@ -80,7 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case 16:
-                matriz= new int[cantidadBotones][cantidadBotones];
+                matriz = new int[cantidadBotones][cantidadBotones];
+                contadorAdyacentes = new int[cantidadBotones][cantidadBotones];
                 for (int i = 0; i < 60; i++) {
                     int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
                     int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
@@ -129,23 +134,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         gridLayout.setLayoutParams(param);
 
         //matriz = new int[cantidadBotones][cantidadBotones];
-        int filasXcolumnas = cantidadBotones * cantidadBotones;
+        //int filasXcolumnas = cantidadBotones * cantidadBotones;
 
         for (int i = 0; i < (cantidadBotones); i++) {
             for (int j = 0; j < (cantidadBotones); j++) {
 
-                ImageButton button = new ImageButton(MainActivity.this);
-                Button b = new Button(MainActivity.this);
 
-                //  Da forma rectangular al botón y establece el padding a 0
-                button.setBackground(getResources().getDrawable(R.drawable.forma_boton));
+                if (matriz[i][j] == -1) {
+                    ImageButton button = new ImageButton(MainActivity.this);
+                    //  Da forma rectangular al botón y establece el padding a 0
+                    button.setBackground(getResources().getDrawable(R.drawable.forma_boton));
+                    button.setTag(matriz[i][j]);
+                    button.setLayoutParams(layoutParams);
+                    button.forceLayout();
+                    button.setId(View.generateViewId());
 
-                button.setTag(matriz[i][j]);
-                button.setLayoutParams(layoutParams);
-                button.forceLayout();
-                button.setId(View.generateViewId());
-                gridLayout.addView(button);
-                if (matriz[i][j]==-1)System.out.println(matriz[i][j]);
+                    button.setTag(contadorAdyacentes[i][j]);
+
+                    contadorAdyacentes[i-1][j-1]++;
+                    contadorAdyacentes[i-1][j  ]++;
+                    contadorAdyacentes[i-1][j+1]++;
+                    contadorAdyacentes[i  ][j-1]++;
+                    contadorAdyacentes[i  ][j+1]++;
+                    contadorAdyacentes[i+1][j-1]++;
+                    contadorAdyacentes[i+1][j  ]++;
+                    contadorAdyacentes[i+1][j+1]++;
+                    button.setOnClickListener(this::onClick);
+                    button.setOnLongClickListener(this);
+                    gridLayout.addView(button);
+
+                } else if (matriz[i][j] == 0) {
+                    Button button = new Button(MainActivity.this);
+                    //  Da forma rectangular al botón y establece el padding a 0
+                    button.setBackground(getResources().getDrawable(R.drawable.forma_boton));
+                    button.setTag(matriz[i][j]);
+                    button.setLayoutParams(layoutParams);
+                    button.forceLayout();
+                    button.setId(View.generateViewId());
+                    button.setGravity(Gravity.CENTER);
+                    button.setOnClickListener(this);
+                    button.setOnLongClickListener(this);
+                    gridLayout.addView(button);
+                }
             }
 
         }
@@ -154,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
-
 
 
     /**
@@ -213,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void seleccionPersonaje() {
 //        dialogoPersonaje = new DialogoPersonaje();
 //        dialogoPersonaje.show(getSupportFragmentManager(),"personaje");
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.titulopersonaje);
         LayoutInflater inflater = (LayoutInflater) this
@@ -231,27 +261,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
+                        personajeSeleccionado = R.drawable.hipo1;
                         Toast.makeText(MainActivity.this, "hipo1", Toast.LENGTH_SHORT).show();
                         diallogo.cancel();
                         break;
                     case 1:
+                        personajeSeleccionado = R.drawable.hipo2;
                         Toast.makeText(MainActivity.this, "hipo2", Toast.LENGTH_SHORT).show();
                         diallogo.cancel();
                         break;
                     case 2:
+                        personajeSeleccionado = R.drawable.hipo3;
                         Toast.makeText(MainActivity.this, "hipo3", Toast.LENGTH_SHORT).show();
                         diallogo.cancel();
                         break;
                     case 3:
+                        personajeSeleccionado = R.drawable.hipo4;
                         Toast.makeText(MainActivity.this, "hipo4", Toast.LENGTH_SHORT).show();
                         diallogo.cancel();
                         break;
                     case 4:
+                        personajeSeleccionado = R.drawable.hipo5;
                         Toast.makeText(MainActivity.this, "hipo5", Toast.LENGTH_SHORT).show();
                         diallogo.cancel();
                         break;
                     case 5:
+                        personajeSeleccionado = R.drawable.hipo6;
                         Toast.makeText(MainActivity.this, "hipo6", Toast.LENGTH_SHORT).show();
+                        diallogo.cancel();
+                        break;
+                    default:
+                        Toast.makeText(MainActivity.this, "hipo1", Toast.LENGTH_SHORT).show();
+                        personajeSeleccionado = R.drawable.hipo1;
                         diallogo.cancel();
                         break;
 
@@ -261,9 +302,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
+    /**
+     * @param v vista que pertenece al botón pulsado
+     */
     @Override
     public void onClick(View v) {
+        v.setOnClickListener(this);
+        v.setOnLongClickListener(this);
+        // en el método dibujarTablero() se introdujo la sentencia: button.setTag(matriz[i][j])
+        // de ella me voy a valer pues sirve para establecer el valor que se le ha dado a cada botón
+        // Lo voy a recuperar con getTag().
+        //
+        Object vista = v.getTag();
+        Integer vistaInt = Integer.valueOf((Integer) vista);
+        if (vistaInt == -1) {
+            ImageButton imageButton = (ImageButton) v;
+            imageButton.setImageDrawable(getResources().getDrawable(R.drawable.hipo1));
+            imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        }
+
 
     }
 
@@ -301,5 +359,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
 
 }
