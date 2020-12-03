@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         View.OnLongClickListener,
         DialogoNivelJuego.RespuestaNivel {
 
-    ArrayList<Hipotenochas> hipotenochas;
+
     String nivelSeleccionado;
     int personajeSeleccionado;
     DialogoNivelJuego nivelJuego;
@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DialogoPersonaje dialogoPersonaje;
 
     int[][] matriz;
-    int[][] contadorAdyacentes;
+    int contadorHipotenochas=0;
     GridLayout gridLayout;
-    int cantidadBotones;
+
 
     // constantes de nivel de juego
     // indican el nº de casillas del modo 8x8, 12x12, 16x16
@@ -65,31 +65,123 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (cantidadBotones) {
             case 8:
                 matriz = new int[cantidadBotones][cantidadBotones];
-                contadorAdyacentes = new int[cantidadBotones][cantidadBotones];
-                for (int i = 0; i < 10; i++) {
-                    int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
-                    int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
-                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
 
+                // primero relleno la matriz con ceros
+                for (int i = 0; i < cantidadBotones; i++) {
+                    for (int j = 0; j < cantidadBotones; j++) {
+                        matriz[i][j] = 0;
+                    }
                 }
+
+                // ahora posiciono en ciertas matrices un -1 como hipotechocha
+                for (int k = 0; k < 10; k++) {
+                    int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones) );
+                    int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones ));
+
+
+
+                    if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1) {
+                        k = k - 1;
+                    }else{
+
+                        matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;// hay hipotenocha
+
+                        System.out.println("POSICION FILA "+posicionAleatoriaFila
+                                +" POSICION COLUM "+posicionAleatoriaColumna
+                                +"  matriz: "+(matriz[posicionAleatoriaFila][posicionAleatoriaColumna]));
+
+                        try {
+                            // Celda Noroeste
+                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] ==-1
+                                    &&(posicionAleatoriaFila - 1 )>-1
+                                    && (posicionAleatoriaColumna - 1) >-1)
+                                matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna - 1]=
+                                        (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna - 1])+1;
+                            // Celda Norte
+                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] ==-1
+                                    && posicionAleatoriaFila - 1 >-1
+                                    && posicionAleatoriaColumna >-1)
+                                matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna]=
+                                        (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna])+1;
+                            // Celda Noreste
+                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
+                                    && (posicionAleatoriaFila - 1) >-1
+                                    && (posicionAleatoriaColumna + 1) >-1)
+                                matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna + 1]=
+                                        (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna + 1])+1;
+
+                            // Celda Oeste
+                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
+                                    && (posicionAleatoriaFila) >-1
+                                    && (posicionAleatoriaColumna - 1) >-1)
+                                matriz[posicionAleatoriaFila][posicionAleatoriaColumna - 1]=
+                                        (matriz[posicionAleatoriaFila][posicionAleatoriaColumna - 1])+1;
+
+                            // celda Suroeste
+                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
+                                    && (posicionAleatoriaFila+1) >-1
+                                    && (posicionAleatoriaColumna - 1) >-1)
+                            matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna - 1]=
+                                    (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna - 1])+1;
+
+                            // celda Sur
+                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
+                                    && (posicionAleatoriaFila+1) >-1
+                                    && (posicionAleatoriaColumna ) >-1)
+                                matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna]=
+                                        (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna])+1;
+                            // Celda sureste
+                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
+                                    && (posicionAleatoriaFila+1) >-1
+                                    && (posicionAleatoriaColumna +1) >-1)
+                                matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna + 1]=
+                                        (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna + 1])+1;
+
+                            // Celda Este
+                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
+                                    && (posicionAleatoriaFila) >-1
+                                    && (posicionAleatoriaColumna +1) >-1)
+                            matriz[posicionAleatoriaFila][posicionAleatoriaColumna + 1]=
+                                    (matriz[posicionAleatoriaFila][posicionAleatoriaColumna + 1])+1;
+
+                        } catch (Exception exception) {
+                            System.out.println("entra en el catch");
+                            //colocarHipotenochas(8);
+                        }
+
+                    }
+                }
+
                 break;
+
             case 12:
-                contadorAdyacentes = new int[cantidadBotones][cantidadBotones];
+
                 matriz = new int[cantidadBotones][cantidadBotones];
                 for (int i = 0; i < 30; i++) {
                     int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
                     int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
-                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
+                    // comprueba que no haya una Hipotenusa, en caso contrario hace un nuevo intento
+                    // restandole 1 al bucle
+                    if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1) {
+                        i = i - 1;
+                    }
+                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;// hay hipotenocha
+
+
 
                 }
                 break;
+
             case 16:
                 matriz = new int[cantidadBotones][cantidadBotones];
-                contadorAdyacentes = new int[cantidadBotones][cantidadBotones];
+
                 for (int i = 0; i < 60; i++) {
                     int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
                     int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
-                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
+                    if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1) {
+                        i = i - 1;
+                    }
+                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;// hay hipotenocha
 
                 }
                 break;
@@ -133,11 +225,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         gridLayout.setColumnCount(cantidadBotones);
         gridLayout.setLayoutParams(param);
 
-        //matriz = new int[cantidadBotones][cantidadBotones];
-        //int filasXcolumnas = cantidadBotones * cantidadBotones;
-
-        for (int i = 0; i < (cantidadBotones); i++) {
-            for (int j = 0; j < (cantidadBotones); j++) {
+        for (int i = 0; i < cantidadBotones; i++) {
+            for (int j = 0; j < cantidadBotones; j++) {
 
 
                 if (matriz[i][j] == -1) {
@@ -148,22 +237,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     button.setLayoutParams(layoutParams);
                     button.forceLayout();
                     button.setId(View.generateViewId());
-
-                    button.setTag(contadorAdyacentes[i][j]);
-
-                    contadorAdyacentes[i-1][j-1]++;
-                    contadorAdyacentes[i-1][j  ]++;
-                    contadorAdyacentes[i-1][j+1]++;
-                    contadorAdyacentes[i  ][j-1]++;
-                    contadorAdyacentes[i  ][j+1]++;
-                    contadorAdyacentes[i+1][j-1]++;
-                    contadorAdyacentes[i+1][j  ]++;
-                    contadorAdyacentes[i+1][j+1]++;
                     button.setOnClickListener(this::onClick);
                     button.setOnLongClickListener(this);
                     gridLayout.addView(button);
 
-                } else if (matriz[i][j] == 0) {
+                }
+                if (matriz[i][j] != -1) {
                     Button button = new Button(MainActivity.this);
                     //  Da forma rectangular al botón y establece el padding a 0
                     button.setBackground(getResources().getDrawable(R.drawable.forma_boton));
@@ -315,14 +394,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //
         Object vista = v.getTag();
         Integer vistaInt = Integer.valueOf((Integer) vista);
+
         if (vistaInt == -1) {
             ImageButton imageButton = (ImageButton) v;
             imageButton.setImageDrawable(getResources().getDrawable(R.drawable.hipo1));
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
 
+        } else if (vistaInt != -1) {
+            Button button = (Button) v;
+            button.setGravity(Gravity.CENTER);
+
+            button.setText(String.valueOf(v.getTag()));
         }
 
 
+    }
+
+    // metodo para rellenar las casillas adyacentes
+    // con la cantidad de hipotenochas cercanas
+    private void adyacentes(int i) {
+        System.out.println("matriz " + i);
     }
 
     @Override
@@ -349,13 +440,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case "Medio":
                 Toast.makeText(this, "Nivel " + r, Toast.LENGTH_SHORT).show();
+
                 colocarHipotenochas(MEDIO);
                 dibujoTablero(MEDIO);
+
                 break;
             case "Avanzado":
                 Toast.makeText(this, "Nivel " + r, Toast.LENGTH_SHORT).show();
+
                 colocarHipotenochas(AVANZADO);
                 dibujoTablero(AVANZADO);
+
                 break;
         }
     }
