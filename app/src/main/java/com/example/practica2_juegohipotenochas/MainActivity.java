@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } catch (Exception exception) {
                             System.out.println("entra en el catch");
                             //colocarHipotenochas(8);
+                            dibujoTablero(8);
                         }
 
                     }
@@ -229,31 +230,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             for (int j = 0; j < cantidadBotones; j++) {
 
 
-                if (matriz[i][j] == -1) {
-                    ImageButton button = new ImageButton(MainActivity.this);
+                if (this.matriz[i][j] == -1) {
+                    ImageButton button = new ImageButton(this);
                     //  Da forma rectangular al botón y establece el padding a 0
                     button.setBackground(getResources().getDrawable(R.drawable.forma_boton));
-                    button.setTag(matriz[i][j]);
                     button.setLayoutParams(layoutParams);
-                    button.forceLayout();
+                    button.setTag(this.matriz[i][j]);
                     button.setId(View.generateViewId());
-                    button.setOnClickListener(this::onClick);
-                    button.setOnLongClickListener(this);
-                    gridLayout.addView(button);
-
-                }
-                if (matriz[i][j] != -1) {
-                    Button button = new Button(MainActivity.this);
-                    //  Da forma rectangular al botón y establece el padding a 0
-                    button.setBackground(getResources().getDrawable(R.drawable.forma_boton));
-                    button.setTag(matriz[i][j]);
-                    button.setLayoutParams(layoutParams);
-                    button.forceLayout();
-                    button.setId(View.generateViewId());
-                    button.setGravity(Gravity.CENTER);
                     button.setOnClickListener(this);
                     button.setOnLongClickListener(this);
-                    gridLayout.addView(button);
+                    this.gridLayout.addView(button);
+
+                }else{
+                    Button b = new Button(this);
+                    //  Da forma rectangular al botón y establece el padding a 0
+                    b.setBackground(getResources().getDrawable(R.drawable.forma_boton));
+                    b.setLayoutParams(layoutParams);
+                    b.setTag(this.matriz[i][j]);
+                    b.setId(View.generateViewId());
+                    b.setGravity(Gravity.CENTER);
+                    b.setOnClickListener(this);
+                    b.setOnLongClickListener(this);
+                    this.gridLayout.addView(b);
                 }
             }
 
@@ -386,24 +384,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onClick(View v) {
-        v.setOnClickListener(this);
-        v.setOnLongClickListener(this);
+        v.setOnClickListener(null);
+        v.setOnLongClickListener(null);
+        Integer vistaInt=0;
         // en el método dibujarTablero() se introdujo la sentencia: button.setTag(matriz[i][j])
         // de ella me voy a valer pues sirve para establecer el valor que se le ha dado a cada botón
         // Lo voy a recuperar con getTag().
         //
         Object vista = v.getTag();
-        Integer vistaInt = Integer.valueOf((Integer) vista);
+         vistaInt = Integer.valueOf((Integer) vista);
 
         if (vistaInt == -1) {
             ImageButton imageButton = (ImageButton) v;
-            imageButton.setImageDrawable(getResources().getDrawable(R.drawable.hipo1));
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageButton.setBackgroundResource((R.drawable.hipo1));
 
-        } else if (vistaInt != -1) {
+            Toast.makeText(this, "HAS PERDIDO LA PARTIDA", Toast.LENGTH_SHORT).show();
+
+        } else  {
             Button button = (Button) v;
-            button.setGravity(Gravity.CENTER);
-
             button.setText(String.valueOf(v.getTag()));
         }
 
