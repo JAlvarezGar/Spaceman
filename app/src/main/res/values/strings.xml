@@ -13,6 +13,7 @@
     <string name="titulo_main">ENCUENTRA LAS HIPOTENOCHAS</string>
     <string name="titulopersonaje">SELECCIONA HIPOTENOCHA</string>
     <string name="ok">SALIR</string>
+    <string name="hipoEncontrada">Hipotenocha encontrada y anulada</string>
     <string-array name="nombres">
         <item>Principal</item>
         <item>Numérica</item>

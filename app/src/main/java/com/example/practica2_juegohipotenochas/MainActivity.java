@@ -2,7 +2,6 @@ package com.example.practica2_juegohipotenochas;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +19,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,22 +26,19 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import static com.example.practica2_juegohipotenochas.R.string.hipoEncontrada;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         View.OnLongClickListener,
         DialogoNivelJuego.RespuestaNivel {
 
 
-    String nivelSeleccionado;
     int personajeSeleccionado;
     DialogoNivelJuego nivelJuego;
     DialogoInstruciones dInstrucciones;
     DialogoPersonaje dialogoPersonaje;
 
     int[][] matriz;
-    int contadorHipotenochas = 0;
-    public boolean finPartida = true;
-
-
     // constantes de nivel de juego
     // indican el nº de casillas del modo 8x8, 12x12, 16x16
     final int PRINCIPIANTE = 8;
@@ -61,6 +56,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Método para situar Hipotenochas en el tablero
+     * en la cantidad escogida según el tamaño de del tablero
+     *
+     * @param cantidadBotones Segun el nivel elegido: 8, 12 o 16 ( por fila y columna )
+     */
     public void colocarHipotenochas(int cantidadBotones) {
         switch (cantidadBotones) {
             case 8:
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // hay hipotenocha
                     matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
 
+                    // comprueba si hay hiporenochas en las casillas adyacentes
                     adyacentes(posicionAleatoriaFila, posicionAleatoriaColumna, cantidadBotones);
 
 
@@ -93,11 +95,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1) {
                         i = i - 1;
                     }
-                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;// hay hipotenocha
+                    // hay hipotenocha
+                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
 
                     adyacentes(posicionAleatoriaFila, posicionAleatoriaColumna, cantidadBotones);
-
-
                 }
                 break;
 
@@ -110,20 +111,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1) {
                         i = i - 1;
                     }
-                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;// hay hipotenocha
+                    // hay hipotenocha
+                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
                     adyacentes(posicionAleatoriaFila, posicionAleatoriaColumna, cantidadBotones);
-
                 }
                 break;
         }
 
     }
 
-    // metodo para rellenar las casillas adyacentes
-    // con la cantidad de hipotenochas cercanas
+    /**
+     *   metodo para rellenar las casillas adyacentes
+     *   con la cantidad de hipotenochas cercanas
+     *
+     * @param posicionAleatoriaFila nº aleatorio para designar una fila
+     * @param posicionAleatoriaColumna nº aleatorio para designar una columna
+     * @param cantidadBotones Segun el nivel elegido: 8, 12 o 16 ( por fila y columna )
+     */
     private void adyacentes(int posicionAleatoriaFila, int posicionAleatoriaColumna, int cantidadBotones) {
 
-//
+
 //            System.out.println("POSICION FILA " + posicionAleatoriaFila
 //                    + " POSICION COLUM " + posicionAleatoriaColumna
 //                    + "  matriz: " + (matriz[posicionAleatoriaFila][posicionAleatoriaColumna]));
@@ -233,8 +240,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 1.0f);
         // ajusto los margenes para que no se salgan de la pantalla los botones
         layoutParams.setMargins(0, 0, 0, 0);
-        //layoutParams.weight=1;
-
 
         // gridLayout para colocar las filas y las colummnas
         gridLayout.setRowCount(cantidadBotones);
@@ -243,7 +248,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         for (int i = 0; i < cantidadBotones; i++) {
             for (int j = 0; j < cantidadBotones; j++) {
-
 
                 if (this.matriz[i][j] == -1) {
                     ImageButton button = new ImageButton(this);
@@ -254,7 +258,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     button.setId(View.generateViewId());
                     button.setOnClickListener(this);
                     button.setOnLongClickListener(this);
-
                     this.gridLayout.addView(button);
 
                 } else {
@@ -274,8 +277,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         constraintLayout.removeAllViews();
         constraintLayout.addView(gridLayout);
-
-
     }
 
 
@@ -437,7 +438,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
+    /**
+     *
+     * @param v la vista en pulsación larga para mostrar la hipotenocha descubierta
+     * @return
+     */
     @Override
     public boolean onLongClick(View v) {
         v.setOnClickListener(null);
@@ -454,7 +459,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ImageButton imageButton = (ImageButton) v;
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
             imageButton.setBackgroundResource((personajeSeleccionado));
-            Toast.makeText(this, "Hipotenocha encontrada y anulada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, hipoEncontrada, Toast.LENGTH_SHORT).show();
         } else {
             Button button = (Button) v;
             button.setText(String.valueOf(v.getTag()));
