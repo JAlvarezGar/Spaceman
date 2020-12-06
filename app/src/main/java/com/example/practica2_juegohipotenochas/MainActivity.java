@@ -1,8 +1,11 @@
 package com.example.practica2_juegohipotenochas;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,8 +28,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         View.OnLongClickListener,
         DialogoNivelJuego.RespuestaNivel {
@@ -39,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DialogoPersonaje dialogoPersonaje;
 
     int[][] matriz;
-    int contadorHipotenochas=0;
-    GridLayout gridLayout;
+    int contadorHipotenochas = 0;
+    public boolean finPartida = true;
 
 
     // constantes de nivel de juego
@@ -49,15 +50,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final int MEDIO = 12;
     final int AVANZADO = 16;
 
-    LinearLayout linearLayout;
-    TableLayout table;
-    Button boton;
+    GridLayout gridLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        personajeSeleccionado = R.drawable.hipo3;
 
     }
 
@@ -66,92 +66,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case 8:
                 matriz = new int[cantidadBotones][cantidadBotones];
 
-                // primero relleno la matriz con ceros
-                for (int i = 0; i < cantidadBotones; i++) {
-                    for (int j = 0; j < cantidadBotones; j++) {
-                        matriz[i][j] = 0;
-                    }
-                }
-
                 // ahora posiciono en ciertas matrices un -1 como hipotechocha
-                for (int k = 0; k < 10; k++) {
-                    int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones) );
-                    int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones ));
+                for (int i = 0; i < 10; i++) {
+                    int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1));
+                    int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1));
+
+                    // hay hipotenocha
+                    matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
+
+                    adyacentes(posicionAleatoriaFila, posicionAleatoriaColumna, cantidadBotones);
 
 
-
-                    if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1) {
-                        k = k - 1;
-                    }else{
-
-                        matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;// hay hipotenocha
-
-                        System.out.println("POSICION FILA "+posicionAleatoriaFila
-                                +" POSICION COLUM "+posicionAleatoriaColumna
-                                +"  matriz: "+(matriz[posicionAleatoriaFila][posicionAleatoriaColumna]));
-
-                        try {
-                            // Celda Noroeste
-                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] ==-1
-                                    &&(posicionAleatoriaFila - 1 )>-1
-                                    && (posicionAleatoriaColumna - 1) >-1)
-                                matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna - 1]=
-                                        (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna - 1])+1;
-                            // Celda Norte
-                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] ==-1
-                                    && posicionAleatoriaFila - 1 >-1
-                                    && posicionAleatoriaColumna >-1)
-                                matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna]=
-                                        (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna])+1;
-                            // Celda Noreste
-                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
-                                    && (posicionAleatoriaFila - 1) >-1
-                                    && (posicionAleatoriaColumna + 1) >-1)
-                                matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna + 1]=
-                                        (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna + 1])+1;
-
-                            // Celda Oeste
-                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
-                                    && (posicionAleatoriaFila) >-1
-                                    && (posicionAleatoriaColumna - 1) >-1)
-                                matriz[posicionAleatoriaFila][posicionAleatoriaColumna - 1]=
-                                        (matriz[posicionAleatoriaFila][posicionAleatoriaColumna - 1])+1;
-
-                            // celda Suroeste
-                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
-                                    && (posicionAleatoriaFila+1) >-1
-                                    && (posicionAleatoriaColumna - 1) >-1)
-                            matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna - 1]=
-                                    (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna - 1])+1;
-
-                            // celda Sur
-                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
-                                    && (posicionAleatoriaFila+1) >-1
-                                    && (posicionAleatoriaColumna ) >-1)
-                                matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna]=
-                                        (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna])+1;
-                            // Celda sureste
-                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
-                                    && (posicionAleatoriaFila+1) >-1
-                                    && (posicionAleatoriaColumna +1) >-1)
-                                matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna + 1]=
-                                        (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna + 1])+1;
-
-                            // Celda Este
-                            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1
-                                    && (posicionAleatoriaFila) >-1
-                                    && (posicionAleatoriaColumna +1) >-1)
-                            matriz[posicionAleatoriaFila][posicionAleatoriaColumna + 1]=
-                                    (matriz[posicionAleatoriaFila][posicionAleatoriaColumna + 1])+1;
-
-                        } catch (Exception exception) {
-                            System.out.println("entra en el catch");
-                            //colocarHipotenochas(8);
-                            dibujoTablero(8);
-                        }
-
-                    }
                 }
+
 
                 break;
 
@@ -168,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;// hay hipotenocha
 
+                    adyacentes(posicionAleatoriaFila, posicionAleatoriaColumna, cantidadBotones);
 
 
                 }
@@ -183,9 +111,96 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         i = i - 1;
                     }
                     matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;// hay hipotenocha
+                    adyacentes(posicionAleatoriaFila, posicionAleatoriaColumna, cantidadBotones);
 
                 }
                 break;
+        }
+
+    }
+
+    // metodo para rellenar las casillas adyacentes
+    // con la cantidad de hipotenochas cercanas
+    private void adyacentes(int posicionAleatoriaFila, int posicionAleatoriaColumna, int cantidadBotones) {
+
+//
+//            System.out.println("POSICION FILA " + posicionAleatoriaFila
+//                    + " POSICION COLUM " + posicionAleatoriaColumna
+//                    + "  matriz: " + (matriz[posicionAleatoriaFila][posicionAleatoriaColumna]));
+
+        try {
+            // Celda Noroeste
+            if (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna - 1] != -1
+                    && posicionAleatoriaFila - 1 >= 0
+                    && posicionAleatoriaColumna - 1 >= 0) {
+                matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna - 1] =
+                        (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna - 1]) + 1;
+            }
+
+
+            // Celda Norte
+            if (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna] != -1
+                    && posicionAleatoriaFila - 1 >= 0) {
+                matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna] =
+                        (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna]) + 1;
+            }
+
+
+            // Celda Noreste
+            if (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna + 1] != -1
+                    && posicionAleatoriaFila + 1 >= 0
+                    && posicionAleatoriaColumna <= cantidadBotones) {
+                matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna + 1] =
+                        (matriz[posicionAleatoriaFila - 1][posicionAleatoriaColumna + 1]) + 1;
+            }
+
+
+            // Celda Oeste
+            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna - 1] != -1
+                    && posicionAleatoriaFila >= 0
+                    && posicionAleatoriaColumna >= 0) {
+                matriz[posicionAleatoriaFila][posicionAleatoriaColumna - 1] =
+                        (matriz[posicionAleatoriaFila][posicionAleatoriaColumna - 1]) + 1;
+            }
+
+
+            // celda Suroeste
+            if (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna - 1] != -1
+                    && posicionAleatoriaFila <= cantidadBotones
+                    && posicionAleatoriaColumna - 1 >= 0) {
+                matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna - 1] =
+                        (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna - 1]) + 1;
+            }
+
+
+            // celda Sur
+            if (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna] != -1
+                    && posicionAleatoriaFila <= cantidadBotones) {
+                matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna] =
+                        (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna]) + 1;
+            }
+
+
+            // Celda sureste
+            if (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna + 1] != -1
+                    && posicionAleatoriaFila <= cantidadBotones
+                    && posicionAleatoriaColumna <= cantidadBotones) {
+                matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna + 1] =
+                        (matriz[posicionAleatoriaFila + 1][posicionAleatoriaColumna + 1]) + 1;
+            }
+
+
+            // Celda Este
+            if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna + 1] != -1
+                    && posicionAleatoriaColumna <= cantidadBotones) {
+                matriz[posicionAleatoriaFila][posicionAleatoriaColumna + 1] =
+                        (matriz[posicionAleatoriaFila][posicionAleatoriaColumna + 1]) + 1;
+            }
+
+
+        } catch (Exception exception) {
+            Log.e("ERROR ", "Array fuera de rango");
+
         }
 
     }
@@ -239,9 +254,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     button.setId(View.generateViewId());
                     button.setOnClickListener(this);
                     button.setOnLongClickListener(this);
+
                     this.gridLayout.addView(button);
 
-                }else{
+                } else {
                     Button b = new Button(this);
                     //  Da forma rectangular al botón y establece el padding a 0
                     b.setBackground(getResources().getDrawable(R.drawable.forma_boton));
@@ -264,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**
-     * @param menu indica que menú se quiere inflrar
+     * @param menu indica que menú se quiere inflar
      *             en este caso se refiere al menú inicial
      */
     @Override
@@ -294,6 +310,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.juegonuevo:
 
                 dibujoTablero(PRINCIPIANTE);
+
                 return super.onOptionsItemSelected(item);
 
             case R.id.configuracion:
@@ -369,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     default:
                         Toast.makeText(MainActivity.this, "hipo1", Toast.LENGTH_SHORT).show();
-                        personajeSeleccionado = R.drawable.hipo1;
+                        personajeSeleccionado = R.drawable.hipo3;
                         diallogo.cancel();
                         break;
 
@@ -386,22 +403,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         v.setOnClickListener(null);
         v.setOnLongClickListener(null);
-        Integer vistaInt=0;
+        Integer vistaInt = 0;
         // en el método dibujarTablero() se introdujo la sentencia: button.setTag(matriz[i][j])
         // de ella me voy a valer pues sirve para establecer el valor que se le ha dado a cada botón
         // Lo voy a recuperar con getTag().
         //
         Object vista = v.getTag();
-         vistaInt = Integer.valueOf((Integer) vista);
+        vistaInt = Integer.valueOf((Integer) vista);
 
         if (vistaInt == -1) {
             ImageButton imageButton = (ImageButton) v;
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageButton.setBackgroundResource((R.drawable.hipo1));
+            imageButton.setBackgroundResource((personajeSeleccionado));
 
-            Toast.makeText(this, "HAS PERDIDO LA PARTIDA", Toast.LENGTH_SHORT).show();
-
-        } else  {
+            // Dialogo que indica el final de la partida einicia una nueva
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Juego de las hipotenochas");
+            builder.setIcon(personajeSeleccionado);
+            builder.setMessage("\nLo siento, creo que has perdido.");
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dibujoTablero(PRINCIPIANTE);
+                }
+            });
+            // Create the AlertDialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
             Button button = (Button) v;
             button.setText(String.valueOf(v.getTag()));
         }
@@ -409,14 +437,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    // metodo para rellenar las casillas adyacentes
-    // con la cantidad de hipotenochas cercanas
-    private void adyacentes(int i) {
-        System.out.println("matriz " + i);
-    }
 
     @Override
     public boolean onLongClick(View v) {
+        v.setOnClickListener(null);
+        v.setOnLongClickListener(null);
+        Integer vistaInt = 0;
+        // en el método dibujarTablero() se introdujo la sentencia: button.setTag(matriz[i][j])
+        // de ella me voy a valer pues sirve para establecer el valor que se le ha dado a cada botón
+        // Lo voy a recuperar con getTag().
+        //
+        Object vista = v.getTag();
+        vistaInt = Integer.valueOf((Integer) vista);
+
+        if (vistaInt == -1) {
+            ImageButton imageButton = (ImageButton) v;
+            imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageButton.setBackgroundResource((personajeSeleccionado));
+            Toast.makeText(this, "Hipotenocha encontrada y anulada", Toast.LENGTH_SHORT).show();
+        } else {
+            Button button = (Button) v;
+            button.setText(String.valueOf(v.getTag()));
+        }
+        
         return false;
     }
 

@@ -12,6 +12,7 @@
     encontrado todas las hipotenochas."</string>
     <string name="titulo_main">ENCUENTRA LAS HIPOTENOCHAS</string>
     <string name="titulopersonaje">SELECCIONA HIPOTENOCHA</string>
+    <string name="ok">SALIR</string>
     <string-array name="nombres">
         <item>Principal</item>
         <item>Numérica</item>
