@@ -130,10 +130,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void adyacentes(int posicionAleatoriaFila, int posicionAleatoriaColumna, int cantidadBotones) {
 
+         /*
+                Las 8 minas adyacentes a la celda seleccionada
 
-//            System.out.println("POSICION FILA " + posicionAleatoriaFila
-//                    + " POSICION COLUM " + posicionAleatoriaColumna
-//                    + "  matriz: " + (matriz[posicionAleatoriaFila][posicionAleatoriaColumna]));
+                    N.O   N   N.E
+                      \   |   /
+                       \  |  /
+                    O----Celda----E
+                         / | \
+                       /   |  \
+                    S.O    S   S.E
+
+                celda-->Celda Actual (fila, columna)
+                N -->  Norte         (fila-1, columna)
+                S -->  Sur           (fila+1, columna)
+                E -->  Este          (fila, columna+1)
+                W -->  Oeste         (fila, columna-1)
+                N.E--> Noreste       (fila-1, columna+1)
+                N.O--> Noroeste      (fila-1, columna-1)
+                S.E--> Sureste       (fila+1, columna+1)
+                S.O--> Suroeste      (fila+1, columna-1)
+                */
 
         try {
             // Celda Noroeste
@@ -310,6 +327,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.juegonuevo:
 
+                colocarHipotenochas(PRINCIPIANTE);
                 dibujoTablero(PRINCIPIANTE);
 
                 return super.onOptionsItemSelected(item);
