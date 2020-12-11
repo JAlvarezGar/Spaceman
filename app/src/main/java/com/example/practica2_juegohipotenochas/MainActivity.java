@@ -442,6 +442,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             builder.setMessage("\nLo siento, creo que has perdido.");
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
+                    colocarHipotenochas(PRINCIPIANTE);
                     dibujoTablero(PRINCIPIANTE);
                 }
             });
