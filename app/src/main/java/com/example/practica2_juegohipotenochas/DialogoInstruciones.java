@@ -23,7 +23,7 @@ public class DialogoInstruciones extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         //Escribimos el título
-        builder.setTitle("Intrucciones Hipotenochas");
+        builder.setTitle("Intrucciones Spaceman");
 
         //Escribimos las instrucciones
         builder.setMessage(getString(R.string.textoinstrucciones));

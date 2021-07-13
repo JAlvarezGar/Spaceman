@@ -26,7 +26,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import static com.example.practica2_juegohipotenochas.R.string.hipoEncontrada;
+import static com.example.practica2_juegohipotenochas.R.string.spaceman;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         View.OnLongClickListener,
@@ -47,35 +47,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     GridLayout gridLayout;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        personajeSeleccionado = R.drawable.hipo3;
 
     }
 
     /**
-     * Método para situar Hipotenochas en el tablero
+     * Método para situar Spaceman en el tablero
      * en la cantidad escogida según el tamaño de del tablero
      *
      * @param cantidadBotones Segun el nivel elegido: 8, 12 o 16 ( por fila y columna )
      */
-    public void colocarHipotenochas(int cantidadBotones) {
+    public void colocarSpaceman(int cantidadBotones) {
         switch (cantidadBotones) {
             case 8:
                 matriz = new int[cantidadBotones][cantidadBotones];
 
-                // ahora posiciono en ciertas matrices un -1 como hipotechocha
+                // ahora posiciono en ciertas matrices un -1 como Spaceman
                 for (int i = 0; i < 10; i++) {
                     int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1));
                     int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1));
 
-                    // hay hipotenocha
+                    // hay Spaceman
                     matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
 
-                    // comprueba si hay hiporenochas en las casillas adyacentes
+                    // comprueba si hay Spaceman en las casillas adyacentes
                     adyacentes(posicionAleatoriaFila, posicionAleatoriaColumna, cantidadBotones);
 
 
@@ -90,12 +88,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 for (int i = 0; i < 30; i++) {
                     int posicionAleatoriaFila = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
                     int posicionAleatoriaColumna = (int) Math.floor(Math.random() * (cantidadBotones - 1) + 1);
-                    // comprueba que no haya una Hipotenusa, en caso contrario hace un nuevo intento
+                    // comprueba que no haya una Spaceman, en caso contrario hace un nuevo intento
                     // restandole 1 al bucle
                     if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1) {
                         i = i - 1;
                     }
-                    // hay hipotenocha
+                    // hay Spaceman
                     matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
 
                     adyacentes(posicionAleatoriaFila, posicionAleatoriaColumna, cantidadBotones);
@@ -122,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      *   metodo para rellenar las casillas adyacentes
-     *   con la cantidad de hipotenochas cercanas
+     *   con la cantidad de Spaceman cercanos
      *
      * @param posicionAleatoriaFila nº aleatorio para designar una fila
      * @param posicionAleatoriaColumna nº aleatorio para designar una columna
@@ -327,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.juegonuevo:
 
-                colocarHipotenochas(PRINCIPIANTE);
+                colocarSpaceman(PRINCIPIANTE);
                 dibujoTablero(PRINCIPIANTE);
 
                 return super.onOptionsItemSelected(item);
@@ -350,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**
-     * método para seleccionar una hipotenocha personalizada
+     * método para seleccionar una SpaceMan personalizado
      */
     private void seleccionPersonaje() {
 //        dialogoPersonaje = new DialogoPersonaje();
@@ -374,38 +372,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        personajeSeleccionado = R.drawable.hipo1;
-                        Toast.makeText(MainActivity.this, "hipo1", Toast.LENGTH_SHORT).show();
+                        personajeSeleccionado = R.drawable.astronauta1;
+                        Toast.makeText(MainActivity.this, "Spaceman: Hamburguesa", Toast.LENGTH_SHORT).show();
                         diallogo.cancel();
                         break;
                     case 1:
-                        personajeSeleccionado = R.drawable.hipo2;
-                        Toast.makeText(MainActivity.this, "hipo2", Toast.LENGTH_SHORT).show();
+                        personajeSeleccionado = R.drawable.astronauta2;
+                        Toast.makeText(MainActivity.this, "Spaceman: Star", Toast.LENGTH_SHORT).show();
                         diallogo.cancel();
                         break;
                     case 2:
-                        personajeSeleccionado = R.drawable.hipo3;
-                        Toast.makeText(MainActivity.this, "hipo3", Toast.LENGTH_SHORT).show();
+                        personajeSeleccionado = R.drawable.astronauta3;
+                        Toast.makeText(MainActivity.this, "Spaceman: Cohete", Toast.LENGTH_SHORT).show();
                         diallogo.cancel();
                         break;
                     case 3:
-                        personajeSeleccionado = R.drawable.hipo4;
-                        Toast.makeText(MainActivity.this, "hipo4", Toast.LENGTH_SHORT).show();
+                        personajeSeleccionado = R.drawable.astronauta4;
+                        Toast.makeText(MainActivity.this, "Spaceman: Alunizaje", Toast.LENGTH_SHORT).show();
                         diallogo.cancel();
                         break;
                     case 4:
-                        personajeSeleccionado = R.drawable.hipo5;
-                        Toast.makeText(MainActivity.this, "hipo5", Toast.LENGTH_SHORT).show();
+                        personajeSeleccionado = R.drawable.astronauta5;
+                        Toast.makeText(MainActivity.this, "Spaceman: Paseo", Toast.LENGTH_SHORT).show();
                         diallogo.cancel();
                         break;
                     case 5:
-                        personajeSeleccionado = R.drawable.hipo6;
-                        Toast.makeText(MainActivity.this, "hipo6", Toast.LENGTH_SHORT).show();
+                        personajeSeleccionado = R.drawable.astronauta6;
+                        Toast.makeText(MainActivity.this, "Spaceman: Portatil", Toast.LENGTH_SHORT).show();
                         diallogo.cancel();
                         break;
+                    case 6:
+                        personajeSeleccionado = R.drawable.astronauta7;
+                        Toast.makeText(MainActivity.this, "Spaceman: Ronaldo", Toast.LENGTH_SHORT).show();
+                        diallogo.cancel();
+                        break;
+                    case 7:
+                        personajeSeleccionado = R.drawable.astronauta8;
+                        Toast.makeText(MainActivity.this, "Spaceman: Escritor", Toast.LENGTH_SHORT).show();
+                        diallogo.cancel();
+                        break;
+                    case 8:
+                        personajeSeleccionado = R.drawable.astronauta9;
+                        Toast.makeText(MainActivity.this, "Spaceman: Portatil", Toast.LENGTH_SHORT).show();
+                        diallogo.cancel();
+                        break;
+                    case 9:
+
                     default:
-                        Toast.makeText(MainActivity.this, "hipo1", Toast.LENGTH_SHORT).show();
-                        personajeSeleccionado = R.drawable.hipo3;
+                        Toast.makeText(MainActivity.this, "Spaceman", Toast.LENGTH_SHORT).show();
+                        personajeSeleccionado = R.drawable.astronauta;
                         diallogo.cancel();
                         break;
 
@@ -435,14 +450,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
             imageButton.setBackgroundResource((personajeSeleccionado));
 
-            // Dialogo que indica el final de la partida einicia una nueva
+            // Dialogo que indica el final de la partida e inicia una nueva
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Juego de las hipotenochas");
+            builder.setTitle("SPACEMAN");
             builder.setIcon(personajeSeleccionado);
-            builder.setMessage("\nLo siento, creo que has perdido.");
+            builder.setMessage("\nLo siento, no había que molestar al astronauta !!!");
             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    colocarHipotenochas(PRINCIPIANTE);
+                    colocarSpaceman(PRINCIPIANTE);
                     dibujoTablero(PRINCIPIANTE);
                 }
             });
@@ -459,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      *
-     * @param v la vista en pulsación larga para mostrar la hipotenocha descubierta
+     * @param v la vista en pulsación larga para mostrar el Spaceman descubierta
      * @return
      */
     @Override
@@ -478,7 +493,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ImageButton imageButton = (ImageButton) v;
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
             imageButton.setBackgroundResource((personajeSeleccionado));
-            Toast.makeText(this, hipoEncontrada, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, spaceman, Toast.LENGTH_SHORT).show();
         } else {
             Button button = (Button) v;
             button.setText(String.valueOf(v.getTag()));
@@ -501,20 +516,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (r) {
             case "Principiante":
                 Toast.makeText(this, "Nivel " + r, Toast.LENGTH_SHORT).show();
-                colocarHipotenochas(PRINCIPIANTE);
+                colocarSpaceman(PRINCIPIANTE);
                 dibujoTablero(PRINCIPIANTE);
                 break;
             case "Medio":
                 Toast.makeText(this, "Nivel " + r, Toast.LENGTH_SHORT).show();
 
-                colocarHipotenochas(MEDIO);
+                colocarSpaceman(MEDIO);
                 dibujoTablero(MEDIO);
 
                 break;
             case "Avanzado":
                 Toast.makeText(this, "Nivel " + r, Toast.LENGTH_SHORT).show();
 
-                colocarHipotenochas(AVANZADO);
+                colocarSpaceman(AVANZADO);
                 dibujoTablero(AVANZADO);
 
                 break;

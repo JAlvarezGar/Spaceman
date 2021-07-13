@@ -1,28 +1,28 @@
 <resources>
-    <string name="app_name">Practica2_JuegoHipotenochas</string>
+    <string name="app_name">Spaceman</string>
     <string name="instrucciones">Instrucciones</string>
     <string name="juegonuevo">Juego nuevo</string>
     <string name="configuracion">Configuración</string>
-    <string name="personaje">Selecciona la hipotenocha</string>
+    <string name="personaje">Selecciona a Spaceman</string>
     <string name="textoinstrucciones">El juego es tipo buscaminas: Cuando pulsas en una casilla,
-    sale un número que identifica cuantas hipotenochas hay alrededor: Ten cuidado porque si pulsas
-    en una casilla que tenga una hipotenocha escondida, perderás. Si crees o tienes la certeza de
-    que hay una hipotenocha, haz un clic largo sobre la casilla para señalarla. No hagas un clic
-    largo en una casilla donde no hay una hipotenocha porque perderás. Ganas una vez hayas
-    encontrado todas las hipotenochas."</string>
-    <string name="titulo_main">ENCUENTRA LAS HIPOTENOCHAS</string>
-    <string name="titulopersonaje">SELECCIONA HIPOTENOCHA</string>
+    sale un número que identifica cuantos Spaceman hay alrededor: Ten cuidado porque si pulsas
+    en una casilla que tenga un Spaceman escondido, perderás. Si crees o tienes la certeza de
+    que hay un Spaceman, haz un clic largo sobre la casilla para señalarla. No hagas un clic
+    largo en una casilla donde no hay un Spaceman porque perderás. Ganas una vez hayas
+    encontrado todos Spaceman."</string>
+    <string name="titulo_main">DON\'T DISTURB THE ASTRONAUT</string>
+    <string name="titulopersonaje">SELECCIONA SPACEMAN</string>
     <string name="ok">SALIR</string>
-    <string name="hipoEncontrada">Hipotenocha encontrada y anulada</string>
+    <string name="spaceman">Astronauta encontrado, no había que molestarle. Sorry...</string>
     <string-array name="nombres">
-        <item>Principal</item>
-        <item>Numérica</item>
-        <item>Española</item>
-        <item>Dibujos</item>
-        <item>Faralae</item>
-        <item>Deportes</item>
-        <item>Camuflaje</item>
-        <item>Enfermera</item>
-        <item>Binaria</item>
+        <item>Hamburguesa</item>
+        <item>Star</item>
+        <item>Cohete</item>
+        <item>Alunizaje</item>
+        <item>Paseo</item>
+        <item>Portatil</item>
+        <item>Ronaldo</item>
+        <item>Escritor</item>
+        <item>Balloons</item>
     </string-array>
 </resources>

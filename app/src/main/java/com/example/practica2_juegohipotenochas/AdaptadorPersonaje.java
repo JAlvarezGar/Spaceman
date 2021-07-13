@@ -24,9 +24,9 @@ public class AdaptadorPersonaje extends BaseAdapter {
         arrayList= new ArrayList<>();
         Resources res= context.getResources();
         String[] nombres=res.getStringArray(R.array.nombres);
-        int[] images={R.drawable.hipo1,R.drawable.hipo2,R.drawable.hipo3,
-                R.drawable.hipo4,R.drawable.hipo5,R.drawable.hipo6,
-                R.drawable.hipo7,R.drawable.hipo8,R.drawable.hipo9};
+        int[] images={R.drawable.astronauta1,R.drawable.astronauta2,R.drawable.astronauta3,
+                R.drawable.astronauta4,R.drawable.astronauta5,R.drawable.astronauta6,
+                R.drawable.astronauta7,R.drawable.astronauta8,R.drawable.astronauta9};
     /**
      *  Crea un arraylist con todas la hipotenochas y sus nombres
      */
