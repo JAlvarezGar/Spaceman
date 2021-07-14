@@ -4,16 +4,20 @@
     <string name="juegonuevo">Juego nuevo</string>
     <string name="configuracion">Configuración</string>
     <string name="personaje">Selecciona a Spaceman</string>
-    <string name="textoinstrucciones">El juego es tipo buscaminas: Cuando pulsas en una casilla,
+    <string name="textoinstrucciones">El juego es tipo buscaminas:\nCuando pulsas en una casilla,
     sale un número que identifica cuantos Spaceman hay alrededor: Ten cuidado porque si pulsas
     en una casilla que tenga un Spaceman escondido, perderás. Si crees o tienes la certeza de
     que hay un Spaceman, haz un clic largo sobre la casilla para señalarla. No hagas un clic
     largo en una casilla donde no hay un Spaceman porque perderás. Ganas una vez hayas
-    encontrado todos Spaceman."</string>
+    encontrado todos los Spaceman.
+        \nPara jugar utiliza el menú de arriba a la derecha. ¡¡¡ Buena suerte !!!"</string>
     <string name="titulo_main">DON\'T DISTURB THE ASTRONAUT</string>
     <string name="titulopersonaje">SELECCIONA SPACEMAN</string>
     <string name="ok">SALIR</string>
     <string name="spaceman">Astronauta encontrado, no había que molestarle. Sorry...</string>
+    <string name="atribuciones">Los Spaceman son utilizados en esta app bajo licencia de :\n catalyststuff - <a hrfe="www.freepik.es">www.freepik.es</a></string>
+    <string name="autor">by Jesús Alvarez G.</string>
+
     <string-array name="nombres">
         <item>Hamburguesa</item>
         <item>Star</item>

@@ -19,7 +19,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/selectpersonaje"
-        android:icon="@drawable/hipo1"
+        android:icon="@drawable/astronauta"
         android:orderInCategory="2"
         android:title="@string/personaje"
         app:showAsAction="never" />
