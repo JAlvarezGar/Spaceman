@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DialogoInstruciones dInstrucciones;
     DialogoPersonaje dialogoPersonaje;
 
+    boolean click=true;
+
     int[][] matriz;
     // constantes de nivel de juego
     // indican el nº de casillas del modo 8x8, 12x12, 16x16
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (matriz[posicionAleatoriaFila][posicionAleatoriaColumna] == -1) {
                         i = i - 1;
                     }
-                    // hay hipotenocha
+                    // hay Spaceman
                     matriz[posicionAleatoriaFila][posicionAleatoriaColumna] = -1;
                     adyacentes(posicionAleatoriaFila, posicionAleatoriaColumna, cantidadBotones);
                 }
@@ -450,20 +452,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
             imageButton.setBackgroundResource((personajeSeleccionado));
 
-            // Dialogo que indica el final de la partida e inicia una nueva
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("SPACEMAN");
-            builder.setIcon(personajeSeleccionado);
-            builder.setMessage("\nLo siento, no había que molestar al astronauta !!!");
-            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    colocarSpaceman(PRINCIPIANTE);
-                    dibujoTablero(PRINCIPIANTE);
-                }
-            });
-            // Create the AlertDialog
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            // flag que indica que es una pulasacion de un solo click
+            click=true;
+            finPartida(click);
+
         } else {
             Button button = (Button) v;
             button.setText(String.valueOf(v.getTag()));
@@ -494,13 +486,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ImageButton imageButton = (ImageButton) v;
             imageButton.setScaleType(ImageView.ScaleType.FIT_XY);
             imageButton.setBackgroundResource((personajeSeleccionado));
-            Toast.makeText(this, spaceman, Toast.LENGTH_SHORT).show();
+
+            Log.i("LongClik" , String.valueOf(v.getTag()));
         } else {
             Button button = (Button) v;
             button.setText(String.valueOf(v.getTag()));
+            Log.i("LongClik" , String.valueOf(v.getTag()));
+            click=false;
+            finPartida(click);
         }
         
         return false;
+    }
+
+    public void finPartida(boolean click){
+
+        // Dialogo que indica el final de la partida e inicia una nueva
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("SPACEMAN");
+        builder.setIcon(personajeSeleccionado);
+        if(click){
+            builder.setMessage("\nBooom, no había que molestar a Spaceman !!!");
+        }
+        if(!click){
+            builder.setMessage("\nBooom, no había ningún Spaceman!!!");
+        }
+
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                colocarSpaceman(PRINCIPIANTE);
+                dibujoTablero(PRINCIPIANTE);
+            }
+        });
+        // Create the AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     /**
